@@ -73,6 +73,9 @@ function appendPostDOM(post) {
   let editForm = document.createElement("form");
   let editTitle = document.createElement("input");
   let editPost = document.createElement("input");
+  editForm.className += "edit-From";
+  editTitle.className += "edit-title";
+  editPost.className += "edit-post";
   editBtn.onclick = () => {
     if (editBtn.textContent === "Edit") {
       editForm.appendChild(editTitle);
@@ -91,7 +94,7 @@ function appendPostDOM(post) {
         title: editTitle.value,
       };
       updateDiv.remove();
-      cardDiv.remove()
+      cardDiv.remove();
       updatePost(updatedPost);
     }
   };
@@ -158,7 +161,7 @@ function updatePost(updatedPost) {
       updatedPost
     )
     .then((response) => {
-        console.log(response.data)
+      console.log(response.data);
       appendPostDOM(response.data);
     })
     .catch((error) => {
