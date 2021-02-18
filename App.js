@@ -82,6 +82,19 @@ function appendPostDOM(post) {
   let editForm = document.createElement("form");
   let editTitle = document.createElement("input");
   let editPost = document.createElement("input");
+  editForm.onsubmit = (event) => {
+    event.preventDefault();
+    editBtn.textContent = "Edit";
+    let updatedPost = {
+      userId: post.userId,
+      body: editPost.value,
+      id: post.id,
+      title: editTitle.value,
+    };
+    updateDiv.remove();
+    cardDiv.remove();
+    updatePost(updatedPost);
+  };
   editForm.className += "edit-From";
   editTitle.className += "edit-title";
   editPost.className += "edit-post";
@@ -180,7 +193,7 @@ function updatePost(updatedPost) {
 
 //number of posts in a page
 function paginate(posts, rows_per_page, currentPage) {
-  postContainer.innerHTML="";
+  postContainer.innerHTML = "";
   currentPage--;
   let start_index = currentPage * rows_per_page;
   let end_index = start_index + rows_per_page;
