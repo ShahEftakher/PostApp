@@ -1,4 +1,9 @@
 var postNumber;
+
+const ROWS_IN_A_PAGE = 10;
+
+const postContainer = document.getElementById("posts");
+
 //input field title
 const titleField = document.querySelector(".title-input");
 
@@ -7,6 +12,9 @@ const postField = document.querySelector(".post-input");
 
 //form for adding a post
 const postForm = document.querySelector(".add-post-form");
+
+const paginationDiv = document.querySelector(".pagination");
+
 postForm.addEventListener("submit", (event) => {
   if (titleField.value === "" || postField.value === "") {
     alert("Please add a post!");
@@ -32,7 +40,8 @@ function getPosts() {
     .then((response) => {
       let posts = response.data;
       postNumber = postCount(posts.length);
-      displayPostsDOM(posts);
+      paginate(posts, ROWS_IN_A_PAGE, 1);
+      addPaginationBtns(posts, ROWS_IN_A_PAGE);
     })
     .catch((error) => {
       console.log(error);
@@ -167,4 +176,37 @@ function updatePost(updatedPost) {
     .catch((error) => {
       console.log(error);
     });
+}
+
+//number of posts in a page
+function paginate(posts, rows_per_page, currentPage) {
+  postContainer.innerHTML="";
+  currentPage--;
+  let start_index = currentPage * rows_per_page;
+  let end_index = start_index + rows_per_page;
+
+  let posts_per_page = posts.slice(start_index, end_index);
+
+  displayPostsDOM(posts_per_page);
+}
+
+//butttons for pagination
+function addPaginationBtns(posts, posts_per_page) {
+  let total_pages = Math.ceil(postNumber() / posts_per_page);
+  for (let i = 1; i < total_pages; i++) {
+    let btn = createButtons(i, posts);
+    paginationDiv.appendChild(btn);
+  }
+}
+
+function createButtons(pageNumber, postsPerPage) {
+  let btn = document.createElement("button");
+  btn.className += "pagination-btn";
+  btn.innerHTML = pageNumber;
+
+  btn.addEventListener("click", (event) => {
+    event.preventDefault();
+    paginate(postsPerPage, ROWS_IN_A_PAGE, pageNumber);
+  });
+  return btn;
 }
