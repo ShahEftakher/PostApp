@@ -5,4 +5,4 @@
 - Add new post
 - Edit an existing post
 - Delete a post
-- paginate through the pages
+- Pagination
