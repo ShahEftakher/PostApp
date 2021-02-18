@@ -1,7 +1,10 @@
+//total posts in the app
 var postNumber;
 
+//content per page
 const ROWS_IN_A_PAGE = 10;
 
+//div containing the posts
 const postContainer = document.getElementById("posts");
 
 //input field title
@@ -13,8 +16,10 @@ const postField = document.querySelector(".post-input");
 //form for adding a post
 const postForm = document.querySelector(".add-post-form");
 
+//containing the page
 const paginationDiv = document.querySelector(".pagination");
 
+//add post
 postForm.addEventListener("submit", (event) => {
   if (titleField.value === "" || postField.value === "") {
     alert("Please add a post!");
@@ -74,10 +79,13 @@ function appendPostDOM(post) {
   //div for holding the btns
   let btnDiv = document.createElement("div");
   btnDiv.className += "btnDiv";
+
   //edit btn
   let editBtn = document.createElement("button");
   editBtn.textContent = "Edit";
   editBtn.className += "editBtn";
+
+  //update field for a post
   let updateDiv = document.createElement("div");
   let editForm = document.createElement("form");
   let editTitle = document.createElement("input");
@@ -98,6 +106,8 @@ function appendPostDOM(post) {
   editForm.className += "edit-From";
   editTitle.className += "edit-title";
   editPost.className += "edit-post";
+
+  //edit button functions
   editBtn.onclick = () => {
     if (editBtn.textContent === "Edit") {
       editForm.appendChild(editTitle);
@@ -120,6 +130,7 @@ function appendPostDOM(post) {
       updatePost(updatedPost);
     }
   };
+
   //delete btn
   let deleteBtn = document.createElement("button");
   deleteBtn.textContent = "Remove";
@@ -128,6 +139,8 @@ function appendPostDOM(post) {
     deletePost(post.id);
     cardDiv.remove();
   };
+
+  //adding a post
   cardDiv.className += "postcard";
   h1.innerHTML = post.title;
   h3.innerHTML = "User Id: " + post.userId;
@@ -156,15 +169,7 @@ function addPost(newPost) {
     });
 }
 
-//closure to maintain post count
-function postCount(totalPosts) {
-  var currentTotal = totalPosts;
-  return function () {
-    currentTotal++;
-    return currentTotal;
-  };
-}
-
+//delete post
 function deletePost(postId) {
   axios
     .delete("https://jsonplaceholder.typicode.com/posts" + "/" + postId)
@@ -176,6 +181,7 @@ function deletePost(postId) {
     });
 }
 
+//update a post
 function updatePost(updatedPost) {
   axios
     .put(
@@ -191,6 +197,16 @@ function updatePost(updatedPost) {
     });
 }
 
+//closure to maintain post count
+function postCount(totalPosts) {
+  var currentTotal = totalPosts;
+  return function () {
+    currentTotal++;
+    return currentTotal;
+  };
+}
+
+// pagination
 //number of posts in a page
 function paginate(posts, rows_per_page, currentPage) {
   postContainer.innerHTML = "";
@@ -212,6 +228,7 @@ function addPaginationBtns(posts, posts_per_page) {
   }
 }
 
+//create buttons for pagination
 function createButtons(pageNumber, postsPerPage) {
   let btn = document.createElement("button");
   btn.className += "pagination-btn";
