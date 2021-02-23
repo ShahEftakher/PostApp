@@ -33,7 +33,6 @@ postForm.addEventListener("submit", (event) => {
   };
   titleField.value = "";
   postField.value = "";
-  console.log(newPost);
   addPost(newPost);
   event.preventDefault();
 });
@@ -161,7 +160,6 @@ function addPost(newPost) {
   axios
     .post("https://jsonplaceholder.typicode.com/posts", newPost)
     .then((response) => {
-      console.log(response.data);
       appendPostDOM(response.data);
     })
     .catch((error) => {
@@ -174,7 +172,6 @@ function deletePost(postId) {
   axios
     .delete("https://jsonplaceholder.typicode.com/posts" + "/" + postId)
     .then((response) => {
-      console.log(response.data);
     })
     .catch((error) => {
       console.log(error);
@@ -189,7 +186,6 @@ function updatePost(updatedPost) {
       updatedPost
     )
     .then((response) => {
-      console.log(response.data);
       appendPostDOM(response.data);
     })
     .catch((error) => {
